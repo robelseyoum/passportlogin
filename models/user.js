@@ -36,3 +36,28 @@ module.exports.registerUser = function(newUser, callback){
         })
     })
 };
+
+//get user by user name
+module.exports.getUserByUsername = function(username, callback){
+    const query = {username: username};
+    User.findOne(query, callback);
+}
+
+
+//get user by user id
+module.exports.getUserById = function(id, callback){
+    User.findById(id, callback);
+}
+
+//match the password
+module.exports.comparePassword = function(candidatePassword, hash, callback){
+    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+        if(err) throw err;
+        callback(null, isMatch);
+    });
+}
+
+
+
+
+

@@ -60,13 +60,13 @@ router.post("/register", (req, res, next) => {
 
 //Local Strategy
 passport.use(new LocalStrategy((username, password, done) => {
-
+    //from model
    User.getUserByUsername(username, (err, user) => {
     if(err) throw err;
     if(!user){
         return done(null, false, {message: 'No user found'});
     }
-
+    //from model
     User.comparePassword(password, user.password, (err, isMatch) => {
         if(err) throw err;
         if(isMatch){
@@ -85,6 +85,7 @@ passport.serializeUser((user, done) => {
 
 //deserialize user
 passport.deserializeUser((id, done) => {
+    //from model
     User.getUserById(id, (err, user) => {
         done(err, user);
     })
@@ -96,9 +97,7 @@ router.post('/login', (req, res, next) => {
         successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true
-    }, (req, res) =>{
-        res.redirect('/');
-    });
+    })(req, res, next);
 });
 
 

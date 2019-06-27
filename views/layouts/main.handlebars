@@ -69,7 +69,11 @@
             <div class="alert alert-danger">{{msg}}</div>
             {{/each}}
         {{/if}}
-        
+
+        {{# if error }}
+            <div class="alert alert-success">{{ error }}</div>
+        {{/if}}
+
         {{{body}}}
     </div>
 
