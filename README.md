@@ -9,7 +9,7 @@ This project uses
 - Express Messages & Validator
 
 In order to run the app, install the dependencies first with...
-- npm install
+- npm install 
 
 Then run the app with
 - npm start
