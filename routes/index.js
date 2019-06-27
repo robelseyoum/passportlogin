@@ -6,7 +6,7 @@ const LocalStrategy = require('passport-local').Strategy;
 let User = require('../models/user');
 
 //home page
-router.get("/", (req, res, next) => {
+router.get("/", ensureAuthenticated, (req, res, next) => {
   res.render("index");
 });
 
@@ -18,6 +18,14 @@ router.get("/register", (req, res, next) => {
 //login
 router.get("/login", (req, res, next) => {
   res.render("login");
+});
+
+//login
+router.get("/logout", (req, res, next) => {
+  req.logout();
+  req.flash('success_msg', 'You are logged out');
+  res.redirect('/login');
+
 });
 
 router.post("/register", (req, res, next) => {
@@ -99,6 +107,16 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
+
+//Access control only autherised users are allowed to see Home-Page
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('erro_msg', 'You are not autherised to view that Page');
+        res.redirect('/login')
+    }
+}
 
 
 
